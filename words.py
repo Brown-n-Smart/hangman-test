@@ -5,8 +5,8 @@ def load_words():
     """
     this function help to load more word by updating word_list (list)    
     Example :-
-        word_list = ["learning", "kindness", "joy", "kiet", "good"] (old)
-        word_list = ["learning", "kindness", "joy", "kiet", "good" ,"hello"] (new)
+        word_list = ["learning", "kindness", "joy", "kite", "good"] (old)
+        word_list = ["learning", "kindness", "joy", "kite", "good" ,"hello"] (new)
     """
     word_list = ["learning", "kindness", "joy", "kiet", "good"]
 

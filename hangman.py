@@ -1,6 +1,6 @@
 import string
 from words import choose_word
-from images import IMAGES
+from images import hangman_display
 '''
 Important instruction
 * function and variable name snake_case -> is_prime
@@ -15,7 +15,10 @@ def is_word_guessed(secret_word, letters_guessed):
       return True (if user guess the world correctly )
       return False (wrong selection)
     '''
-    return False
+    if letters_guessed == secret_word:
+        return True
+    else:
+        return False
 
 # if you want to test this function please call function -> get_guessed_word("kindness", [k, n, d])
 
@@ -50,7 +53,12 @@ def get_available_letters(letters_guessed):
       letters_guessed = ['e', 'a'] then    
       return sting is -> `bcdfghijklmnopqrstuvwxyz`
     '''
+    new_letters = ""
     letters_left = string.ascii_lowercase
+    for i in range(len(letters_guessed)):
+        if letters_left not in letters_guessed:
+            new_letters += letters_left[i]
+        
     return letters_left
 
 
@@ -73,25 +81,33 @@ def hangman(secret_word):
     print("I am thinking of a word that is {} letters long.".format(
         str(len(secret_word))), end='\n\n')
 
+    remaining_lives = 8
     letters_guessed = []
+    wrong_guess = 0
+    while remaining_lives>0:
+        available_letters = get_available_letters(letters_guessed)
+        print("Available letters: {} ".format(available_letters))
 
-    available_letters = get_available_letters(letters_guessed)
-    print("Available letters: {} ".format(available_letters))
+        guess = input("Please guess a letter: ")
+        letter = guess.lower()
 
-    guess = input("Please guess a letter: ")
-    letter = guess.lower()
+        if letter in secret_word:
+            letters_guessed.append(letter)
+            print("Good guess: {} ".format(
+                get_guessed_word(secret_word, letters_guessed)))
 
-    if letter in secret_word:
-        letters_guessed.append(letter)
-        print("Good guess: {} ".format(
-            get_guessed_word(secret_word, letters_guessed)))
-        if is_word_guessed(secret_word, letters_guessed) == True:
-            print(" * * Congratulations, you won! * * ", end='\n\n')
-    else:
-        print("Oops! That letter is not in my word: {} ".format(
-            get_guessed_word(secret_word, letters_guessed)))
-        letters_guessed.append(letter)
-        print("")
+
+            if is_word_guessed(secret_word, letters_guessed) == True:
+                print(" * * Congratulations, you won! * * ", end='\n\n')
+                break
+        else:
+            print("Oops! That letter is not in my word: {} ".format(
+                get_guessed_word(secret_word, letters_guessed)))
+            letters_guessed.append(letter)
+            print(hangman_display(wrong_guess))
+            remaining_lives - 1
+            wrong_guess + 1
+
 
 
 # Load the list of words into the variable wordlist
